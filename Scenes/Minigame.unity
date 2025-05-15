@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536cc9e95c68a444c8b4121a74db44ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1241077428}
+  player: {fileID: 693570236}
 --- !u!195 &135477668
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1244,23 +1244,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 627907330}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &687643241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148429734792}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89601ecf05e7ef54986c43c051d93971, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  turnSpeed: 50
-  horizontalInput: 0
-  verticalInput: 0
-  rb: {fileID: 0}
 --- !u!1 &693570235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,6 +1341,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   turnSpeed: 50
+  winTextObject: {fileID: 1915313250}
+  vidas: 3
+  vidasText: {fileID: 16028991}
 --- !u!1 &753458836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,7 +2011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1241077422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3618,7 +3604,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652152142130}
-  - component: {fileID: 687643241}
   m_Layer: 0
   m_Name: car_1
   m_TagString: Untagged
