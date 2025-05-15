@@ -45,7 +45,7 @@ public class CocheController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && !gameEnded)
+        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("obstacle")) && !gameEnded)
         {
             vidas--;
             ActualizarVidasUI();
