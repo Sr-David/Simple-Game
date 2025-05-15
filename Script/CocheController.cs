@@ -64,6 +64,17 @@ public class CocheController : MonoBehaviour
             }
             // Aquí puedes añadir feedback visual o sonoro por perder una vida
         }
+
+
+        if (collision.gameObject.CompareTag("final") && !gameEnded)
+        {
+
+            winTextObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Win!";
+
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+            // Aquí puedes añadir feedback visual o sonoro por perder una vida
+        }
     }
 
     private void OnTriggerEnter(Collider other)
