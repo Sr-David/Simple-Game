@@ -7,7 +7,15 @@ public class CarJump : MonoBehaviour
     public float duracionSalto = 0.5f;
 
     private bool saltando = false;
+    private bool bajando = false;
     private float desplazamientoY = 0f;
+    private Vector3 offsetInicial;
+
+    void Start()
+    {
+        if (car2 != null)
+            offsetInicial = car2.position - transform.position; // Offset global respecto al padre
+    }
 
     void Update()
     {
@@ -23,6 +31,7 @@ public class CarJump : MonoBehaviour
         float tiempo = 0f;
 
         // Subida
+        bajando = false;
         while (tiempo < duracionSalto)
         {
             desplazamientoY = Mathf.Lerp(0, alturaSalto, tiempo / duracionSalto);
@@ -35,6 +44,7 @@ public class CarJump : MonoBehaviour
 
         // Bajada
         tiempo = 0f;
+        bajando = true;
         while (tiempo < duracionSalto)
         {
             desplazamientoY = Mathf.Lerp(alturaSalto, 0, tiempo / duracionSalto);
@@ -45,6 +55,9 @@ public class CarJump : MonoBehaviour
         desplazamientoY = 0f;
         ActualizarPosicionCar2();
 
+        MatarEnemigosCercanos(5.0f); // Puedes ajustar el radio
+
+        bajando = false;
         saltando = false;
     }
 
@@ -52,10 +65,37 @@ public class CarJump : MonoBehaviour
     {
         if (car2 != null)
         {
-            // Siempre se acopla a la posición actual de las ruedas (padre)
-            car2.position = transform.position + Vector3.up * desplazamientoY;
-            car2.rotation = transform.rotation; // Opcional: mantener la rotación igual al padre
+            car2.position = transform.position + offsetInicial + transform.up * desplazamientoY;
+        }
+    }
+
+    public bool IsBajando()
+    {
+        return bajando;
+    }
+
+    void MatarEnemigosCercanos(float radio)
+    {
+        Collider[] colisiones = Physics.OverlapSphere(car2.position, radio);
+        foreach (var col in colisiones)
+        {
+            if (col.CompareTag("Enemy"))
+            {
+                Destroy(col.gameObject);
+                // Aquí puedes añadir feedback visual o sonoro por eliminar al enemigo
+            }
+        }
+    }
+
+
+
+    // Este método debe estar en un script que esté en car2 (o puedes reenviarlo desde otro script)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (bajando && other.CompareTag("Enemy"))
+        {
+            Destroy(other.gameObject);
+            // Aquí puedes añadir feedback visual o sonoro por eliminar al enemigo
         }
     }
 }
-
