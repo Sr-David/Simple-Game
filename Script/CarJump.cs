@@ -74,6 +74,9 @@ public class CarJump : MonoBehaviour
         return bajando;
     }
 
+    // Dentro de CarJump.cs
+    public CocheController cocheController; // Asigna desde el Inspector
+
     void MatarEnemigosCercanos(float radio)
     {
         Collider[] colisiones = Physics.OverlapSphere(car2.position, radio);
@@ -82,10 +85,29 @@ public class CarJump : MonoBehaviour
             if (col.CompareTag("Enemy"))
             {
                 Destroy(col.gameObject);
-                // Aquí puedes añadir feedback visual o sonoro por eliminar al enemigo
+                if (cocheController != null)
+                {
+                    cocheController.puntos++;
+                    cocheController.ActualizarPuntosUI();
+                }
+            }
+
+            if (col.CompareTag("enemy2"))
+            {
+                Enemy2Health enemy2Health = col.GetComponent<Enemy2Health>();
+                if (enemy2Health != null)
+                {
+                    enemy2Health.TakeHit();
+                    if (cocheController != null)
+                    {
+                        cocheController.puntos++;
+                        cocheController.ActualizarPuntosUI();
+                    }
+                }
             }
         }
     }
+
 
 
 

@@ -7,6 +7,9 @@ public class CocheController : MonoBehaviour
 {
     public float speed = 10f;
     public float turnSpeed = 50f;
+    public int puntos = 0; // Puntos del usuario
+    public TextMeshProUGUI puntosText; // Asigna el objeto de texto de puntos desde el Inspector
+
 
     public GameObject winTextObject; // Asigna el objeto de texto desde el Inspector
     public int vidas = 3; // Número de vidas inicial
@@ -27,7 +30,9 @@ public class CocheController : MonoBehaviour
             winTextObject.SetActive(false);
 
         ActualizarVidasUI();
+        ActualizarPuntosUI(); // <-- Añade esta línea
     }
+
 
     void FixedUpdate()
     {
@@ -45,7 +50,7 @@ public class CocheController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("obstacle")) && !gameEnded)
+        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("obstacle") || collision.gameObject.CompareTag("enemy2")) && !gameEnded)
         {
             vidas--;
             ActualizarVidasUI();
@@ -76,6 +81,18 @@ public class CocheController : MonoBehaviour
             // Aquí puedes añadir feedback visual o sonoro por perder una vida
         }
     }
+
+
+    public void ActualizarPuntosUI()
+    {
+        if (puntosText != null)
+        {
+            puntosText.text = "Puntos: " + puntos;
+        }
+    }
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {
