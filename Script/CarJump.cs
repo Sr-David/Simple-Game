@@ -97,14 +97,29 @@ public class CarJump : MonoBehaviour
                 Enemy2Health enemy2Health = col.GetComponent<Enemy2Health>();
                 if (enemy2Health != null)
                 {
-                    enemy2Health.TakeHit();
-                    if (cocheController != null)
+                    bool muerto = enemy2Health.TakeHit();
+                    if (muerto && cocheController != null)
                     {
-                        cocheController.puntos+=10;
+                        cocheController.puntos += 5;
                         cocheController.ActualizarPuntosUI();
                     }
                 }
             }
+
+            if (col.CompareTag("Enemy3"))
+            {
+                Enemy2Health enemy2Health = col.GetComponent<Enemy2Health>();
+                if (enemy2Health != null)
+                {
+                    bool muerto = enemy2Health.TakeHit();
+                    if (muerto && cocheController != null)
+                    {
+                        cocheController.puntos += 50;
+                        cocheController.ActualizarPuntosUI();
+                    }
+                }
+            }
+
         }
     }
 

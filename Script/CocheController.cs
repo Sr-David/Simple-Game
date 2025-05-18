@@ -29,9 +29,22 @@ public class CocheController : MonoBehaviour
         if (winTextObject != null)
             winTextObject.SetActive(false);
 
+        // Oculta visual y colisión de los objetos "final" al inicio
+        GameObject[] finales = GameObject.FindGameObjectsWithTag("final");
+        foreach (var final in finales)
+        {
+            var renderer = final.GetComponent<Renderer>();
+            if (renderer != null)
+                renderer.enabled = false;
+            var collider = final.GetComponent<Collider>();
+            if (collider != null)
+                collider.enabled = false;
+        }
+
         ActualizarVidasUI();
-        ActualizarPuntosUI(); // <-- Añade esta línea
+        ActualizarPuntosUI();
     }
+
 
 
     void FixedUpdate()
@@ -50,7 +63,7 @@ public class CocheController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("obstacle") || collision.gameObject.CompareTag("enemy2")) && !gameEnded)
+        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("obstacle") || collision.gameObject.CompareTag("enemy2") || collision.gameObject.CompareTag("Enemy3")) && !gameEnded)
         {
             vidas--;
             ActualizarVidasUI();
@@ -88,8 +101,23 @@ public class CocheController : MonoBehaviour
         if (puntosText != null)
         {
             puntosText.text = "Puntos: " + puntos;
+            if (puntos > 110)
+            {
+                GameObject[] finales = GameObject.FindGameObjectsWithTag("final");
+                foreach (var final in finales)
+                {
+                    var renderer = final.GetComponent<Renderer>();
+                    if (renderer != null)
+                        renderer.enabled = true;
+                    var collider = final.GetComponent<Collider>();
+                    if (collider != null)
+                        collider.enabled = true;
+                }
+            }
         }
     }
+
+
 
 
 
