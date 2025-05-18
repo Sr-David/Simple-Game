@@ -12,7 +12,7 @@ public class CocheController : MonoBehaviour
 
 
     public GameObject winTextObject; // Asigna el objeto de texto desde el Inspector
-    public int vidas = 3; // Número de vidas inicial
+    public int vidas = 3; // Nï¿½mero de vidas inicial
     public TextMeshProUGUI vidasText; // Asigna el objeto de texto de vidas desde el Inspector
 
     private float horizontalInput;
@@ -21,15 +21,28 @@ public class CocheController : MonoBehaviour
     private Rigidbody rb;
     public bool gameEnded = false;
 
+
+
+    public GameObject proyectilPrefab; // Asigna el prefab desde el Inspector
+    public Transform puntoDisparo;     // Asigna un hijo vacï¿½o en la parte delantera del coche
+    public int disparosRestantes = 2;
+    public TextMeshProUGUI disparosText; // Asigna el objeto de texto desde el Inspector
+    public float velocidadProyectil = 30f;
+
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
+        ActualizarDisparosUI();
+
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         if (winTextObject != null)
             winTextObject.SetActive(false);
 
-        // Oculta visual y colisión de los objetos "final" al inicio
+        // Oculta visual y colisiï¿½n de los objetos "final" al inicio
         GameObject[] finales = GameObject.FindGameObjectsWithTag("final");
         foreach (var final in finales)
         {
@@ -83,7 +96,7 @@ public class CocheController : MonoBehaviour
                 }
                 // gameObject.SetActive(false); // Opcional: desactiva el coche
             }
-            // Aquí puedes añadir feedback visual o sonoro por perder una vida
+            // Aquï¿½ puedes aï¿½adir feedback visual o sonoro por perder una vida
         }
 
 
@@ -94,7 +107,7 @@ public class CocheController : MonoBehaviour
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Win!";
 
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            // Aquí puedes añadir feedback visual o sonoro por perder una vida
+            // Aquï¿½ puedes aï¿½adir feedback visual o sonoro por perder una vida
         }
     }
 
@@ -132,7 +145,7 @@ public class CocheController : MonoBehaviour
             vidas++;
             ActualizarVidasUI();
             Destroy(other.gameObject); // Elimina el pickup tras recogerlo
-            // Aquí puedes añadir feedback visual o sonoro por recoger una vida
+            // Aquï¿½ puedes aï¿½adir feedback visual o sonoro por recoger una vida
         }
     }
 
@@ -143,4 +156,43 @@ public class CocheController : MonoBehaviour
             vidasText.text = "Vidas: " + vidas;
         }
     }
+
+
+
+
+    public void ActualizarDisparosUI()
+    {
+        if (disparosText != null)
+            disparosText.text = "Disparos: " + disparosRestantes;
+    }
+
+    void Update()
+    {
+        if (gameEnded) return;
+
+        // Disparo con clic izquierdo del ratï¿½n
+        if (Input.GetMouseButtonDown(0) && disparosRestantes > 0)
+        {
+            Disparar();
+        }
+    }
+
+
+    void Disparar()
+    {
+        if (proyectilPrefab != null && puntoDisparo != null)
+        {
+            GameObject proyectil = Instantiate(proyectilPrefab, puntoDisparo.position, puntoDisparo.rotation);
+            Rigidbody rb = proyectil.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = puntoDisparo.forward * velocidadProyectil;
+            }
+            disparosRestantes--;
+            ActualizarDisparosUI();
+        }
+    }
+
+
+
 }
