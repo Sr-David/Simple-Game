@@ -100,7 +100,7 @@ public class CarJump : MonoBehaviour
                     enemy2Health.TakeHit();
                     if (cocheController != null)
                     {
-                        cocheController.puntos++;
+                        cocheController.puntos+=10;
                         cocheController.ActualizarPuntosUI();
                     }
                 }
