@@ -19,7 +19,7 @@ public class CocheController : MonoBehaviour
     private float verticalInput;
 
     private Rigidbody rb;
-    private bool gameEnded = false;
+    public bool gameEnded = false;
 
     void Start()
     {

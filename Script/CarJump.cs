@@ -5,6 +5,7 @@ public class CarJump : MonoBehaviour
     public Transform car2; // Asigna car_2 desde el Inspector
     public float alturaSalto = 2f;
     public float duracionSalto = 0.5f;
+    public CocheController cocheController; // Asigna desde el Inspector
 
     private bool saltando = false;
     private bool bajando = false;
@@ -19,11 +20,16 @@ public class CarJump : MonoBehaviour
 
     void Update()
     {
+        if (cocheController != null && cocheController.gameEnded)
+            return; // No permitir saltar si la partida ha terminado
+
         if (Input.GetKeyDown(KeyCode.Space) && !saltando)
         {
             StartCoroutine(SaltoCar2());
         }
     }
+
+
 
     System.Collections.IEnumerator SaltoCar2()
     {
@@ -74,8 +80,6 @@ public class CarJump : MonoBehaviour
         return bajando;
     }
 
-    // Dentro de CarJump.cs
-    public CocheController cocheController; // Asigna desde el Inspector
 
     void MatarEnemigosCercanos(float radio)
     {
