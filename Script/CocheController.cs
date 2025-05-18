@@ -40,6 +40,9 @@ public class CocheController : MonoBehaviour
             if (collider != null)
                 collider.enabled = false;
         }
+        GameObject paredHorizontal = GameObject.FindGameObjectWithTag("paredHorizontal");
+        paredHorizontal.SetActive(false); // Desactiva la pared horizontal al inicio
+
 
         ActualizarVidasUI();
         ActualizarPuntosUI();
@@ -101,7 +104,7 @@ public class CocheController : MonoBehaviour
         if (puntosText != null)
         {
             puntosText.text = "Puntos: " + puntos;
-            if (puntos > 110)
+            if (puntos > 90)
             {
                 GameObject[] finales = GameObject.FindGameObjectsWithTag("final");
                 foreach (var final in finales)
