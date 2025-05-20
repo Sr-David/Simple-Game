@@ -12,7 +12,7 @@ public class CocheController : MonoBehaviour
 
 
     public GameObject winTextObject; // Asigna el objeto de texto desde el Inspector
-    public int vidas = 3; // N�mero de vidas inicial
+    public int vidas = 3; // Número de vidas inicial
     public TextMeshProUGUI vidasText; // Asigna el objeto de texto de vidas desde el Inspector
 
     private float horizontalInput;
@@ -24,7 +24,7 @@ public class CocheController : MonoBehaviour
 
 
     public GameObject proyectilPrefab; // Asigna el prefab desde el Inspector
-    public Transform puntoDisparo;     // Asigna un hijo vac�o en la parte delantera del coche
+    public Transform puntoDisparo;     // Asigna un hijo vacío en la parte delantera del coche
     public int disparosRestantes = 2;
     public TextMeshProUGUI disparosText; // Asigna el objeto de texto desde el Inspector
     public float velocidadProyectil = 30f;
@@ -36,13 +36,11 @@ public class CocheController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
-        ActualizarDisparosUI();
-
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         if (winTextObject != null)
             winTextObject.SetActive(false);
 
-        // Oculta visual y colisi�n de los objetos "final" al inicio
+        // Oculta visual y colisión de los objetos "final" al inicio
         GameObject[] finales = GameObject.FindGameObjectsWithTag("final");
         foreach (var final in finales)
         {
@@ -92,11 +90,11 @@ public class CocheController : MonoBehaviour
                     winTextObject.SetActive(true);
                     var text = winTextObject.GetComponent<TextMeshProUGUI>();
                     if (text != null)
-                        text.text = "You Lose!";
+                        text.text = "Game Over!";
                 }
                 // gameObject.SetActive(false); // Opcional: desactiva el coche
             }
-            // Aqu� puedes a�adir feedback visual o sonoro por perder una vida
+            // Aquí puedes añadir feedback visual o sonoro por perder una vida
         }
 
 
@@ -107,7 +105,7 @@ public class CocheController : MonoBehaviour
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Win!";
 
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            // Aqu� puedes a�adir feedback visual o sonoro por perder una vida
+            // Aquí puedes añadir feedback visual o sonoro por perder una vida
         }
     }
 
@@ -117,7 +115,7 @@ public class CocheController : MonoBehaviour
         if (puntosText != null)
         {
             puntosText.text = "Puntos: " + puntos;
-            if (puntos > 90)
+            if (puntos > 350)
             {
                 GameObject[] finales = GameObject.FindGameObjectsWithTag("final");
                 foreach (var final in finales)
@@ -145,11 +143,11 @@ public class CocheController : MonoBehaviour
             vidas++;
             ActualizarVidasUI();
             Destroy(other.gameObject); // Elimina el pickup tras recogerlo
-            // Aqu� puedes a�adir feedback visual o sonoro por recoger una vida
+            // Aquí puedes añadir feedback visual o sonoro por recoger una vida
         }
     }
 
-    private void ActualizarVidasUI()
+    public void ActualizarVidasUI()
     {
         if (vidasText != null)
         {
@@ -170,7 +168,7 @@ public class CocheController : MonoBehaviour
     {
         if (gameEnded) return;
 
-        // Disparo con clic izquierdo del rat�n
+        // Disparo con clic izquierdo del ratón
         if (Input.GetMouseButtonDown(0) && disparosRestantes > 0)
         {
             Disparar();
@@ -188,10 +186,19 @@ public class CocheController : MonoBehaviour
             {
                 rb.linearVelocity = puntoDisparo.forward * velocidadProyectil;
             }
+
+            // Asigna el dueño del proyectil como el coche (este GameObject)
+            Projectile script = proyectil.GetComponent<Projectile>();
+            if (script != null)
+            {
+                script.owner = gameObject;
+            }
+
             disparosRestantes--;
             ActualizarDisparosUI();
         }
     }
+
 
 
 

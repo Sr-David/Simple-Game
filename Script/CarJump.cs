@@ -91,7 +91,7 @@ public class CarJump : MonoBehaviour
                 Destroy(col.gameObject);
                 if (cocheController != null)
                 {
-                    cocheController.puntos++;
+                    cocheController.puntos+=10;
                     cocheController.ActualizarPuntosUI();
                 }
             }
@@ -104,7 +104,7 @@ public class CarJump : MonoBehaviour
                     bool muerto = enemy2Health.TakeHit();
                     if (muerto && cocheController != null)
                     {
-                        cocheController.puntos += 5;
+                        cocheController.puntos += 20;
                         cocheController.ActualizarPuntosUI();
                     }
                 }
